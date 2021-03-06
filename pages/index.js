@@ -1,8 +1,11 @@
-import Head from 'next/head'
-import styles from '../styles/Home.module.css'
-
-function HomePage() {
-  return <div>Welcome to Next.js!</div>
+import Head from "next/head";
+import React from 'react';
+import Project from "./projects/projects";
+import TitleFragment from './TitleFragment'
+export default function Home(){
+  return (
+    <TitleFragment title="Add Project">
+      <Project />
+    </TitleFragment>
+    )
 }
-
-export default HomePage
