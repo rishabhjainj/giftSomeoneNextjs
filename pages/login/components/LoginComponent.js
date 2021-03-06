@@ -48,7 +48,7 @@ const LoginComponent = () => {
       notification.open({
         type: "success",
         message: "Logged In Successfully!",
-        description: "Welcome to Skylark API Dashboard.",
+        description: "Welcome to GiftSomeone.",
         onClick: () => {
           console.log("Notification Clicked!");
         },
@@ -112,7 +112,7 @@ const LoginComponent = () => {
                     </a>
                   </Link>
                 </Row>
-                Skylark Labs' AI Console Login
+                Login Here
               </h1>
               <h3
                 style={{
@@ -123,7 +123,7 @@ const LoginComponent = () => {
                   paddingRight: "30px",
                 }}
               >
-                You need to login before trying our demos. Psst! It's free.
+                You need to login before browsing. Psst! It's free.
               </h3>
               <div
                 style={{

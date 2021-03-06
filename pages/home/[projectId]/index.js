@@ -25,7 +25,7 @@ const Index = () => {
   }, [getProjectById]);
 
   return (
-    <TitleFragment title="User Dashboard">
+    <TitleFragment title="Home">
       <BaseTemplate
         selected={list}
         projectData={projectData}

@@ -134,7 +134,7 @@ const Project = () => {
         <a
           target="_blank"
           rel="noopener noreferrer"
-          href="dashboard/EnabledAPIs"
+          href="home/EnabledAPIs"
         >
           Enabled APIs
         </a>
@@ -198,7 +198,7 @@ const Project = () => {
           <Row>
             <Col xs={16} sm={18} md={18} lg={14} xl={11}>
               <span float={"left"} style={{ color: "#0c1b33" }}>
-                <b>AI CONSOLE</b>
+                <b>Try Recommender</b>
               </span>
             </Col>
 
@@ -248,8 +248,8 @@ const Project = () => {
       >
         <Col>
           <h3 style={{ color: "white" }}>Hi User!</h3>
-          <span style={{ color: "white", fontSize: "2.5em" }}>
-            Your Projects
+          <span style={{ color: "white", fontSize: "2.0em" }}>
+            Try From Our Curated Categories
           </span>
         </Col>
       </Row>

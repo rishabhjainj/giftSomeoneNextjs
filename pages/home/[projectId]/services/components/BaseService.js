@@ -8,7 +8,7 @@ import {useRouter} from "next/router";
 const BaseService =(props)=>{
 
     return (
-        <TitleFragment title="User Dashboard">
+        <TitleFragment title="Home">
             <BaseTemplate
                 content={
                     <ServicesBar/>

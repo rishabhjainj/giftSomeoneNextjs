@@ -73,7 +73,7 @@ const ProjectGrid = (props) => {
     </Col>
   );
   for (i = 0; i < colCount; i++) {
-    const link = "/dashboard/".concat(projectList[i].id);
+    const link = "/home/".concat(projectList[i].id);
     cols.push(
       <Link href={link}>
         <Col

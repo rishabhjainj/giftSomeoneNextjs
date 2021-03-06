@@ -85,8 +85,8 @@ const BaseTemplate = (props) => {
     <Menu>
       <Menu.Item>
         <Link
-          href="/dashboard/[projectId]/settings"
-          as={`/dashboard/${projectId}/settings`}
+          href="/home/[projectId]/settings"
+          as={`/home/${projectId}/settings`}
         >
           Project Settings
         </Link>
@@ -95,7 +95,7 @@ const BaseTemplate = (props) => {
         <a
           target="_blank"
           rel="noopener noreferrer"
-          href="dashboard/EnabledAPIs"
+          href="home/EnabledAPIs"
         >
           Enabled APIs
         </a>
@@ -128,8 +128,8 @@ const BaseTemplate = (props) => {
         subMenuList.push(
           <Menu.Item key={"sub".concat(j.toString())}>
             <Link
-              href="/dashboard/[projectId]/services/[service]"
-              as={`/dashboard/${projectId}/services/${services[j].id}`}
+              href="/home/[projectId]/services/[service]"
+              as={`/home/${projectId}/services/${services[j].id}`}
             >
               {services[j].name}
             </Link>
@@ -168,22 +168,22 @@ const BaseTemplate = (props) => {
           }
         >
           <Menu.Item key="1" icon={<BranchesOutlined />}>
-            <Link href="/dashboard/[projectId]" as={`/dashboard/${projectId}`}>
+            <Link href="/home/[projectId]" as={`/home/${projectId}`}>
               Overview
             </Link>
           </Menu.Item>
           <Menu.Item key="2" icon={<KeyOutlined />}>
             <Link
-              href="/dashboard/[projectId]/Credentials"
-              as={`/dashboard/${projectId}/Credentials`}
+              href="/home/[projectId]/Credentials"
+              as={`/home/${projectId}/Credentials`}
             >
               Credentials
             </Link>
           </Menu.Item>
           <Menu.Item key="3" icon={<SettingOutlined />}>
             <Link
-              href="/dashboard/[projectId]/settings"
-              as={`/dashboard/${projectId}/settings`}
+              href="/home/[projectId]/settings"
+              as={`/home/${projectId}/settings`}
             >
               Settings
             </Link>
@@ -265,7 +265,7 @@ const BaseTemplate = (props) => {
                 }}
               >
                 <Link href="/" as={`/`}>
-                  All Projects
+                  All Categories
                 </Link>
               </span>
             </Col>
@@ -274,7 +274,7 @@ const BaseTemplate = (props) => {
               <Row>
                 <Col xs={16} sm={18} md={18} lg={14} xl={11}>
                   <span float={"left"} style={{ color: "#0c1b33" }}>
-                    <b>AI CONSOLE</b>
+                    <b>Try Recommender</b>
                   </span>
                 </Col>
 
@@ -309,7 +309,7 @@ const BaseTemplate = (props) => {
 
         <Content style={{ margin: "24px 16px 0" }}>{props.content}</Content>
         <Footer style={{ textAlign: "center" }}>
-          Skylark Labs ©2018 Created by SkylarkLabsAI
+          GiftSomeOne ©2021
         </Footer>
       </Layout>
     </Layout>

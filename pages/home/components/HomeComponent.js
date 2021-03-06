@@ -94,8 +94,8 @@ const HomeComponent = (props) => {
   for (i = 0; i < colCount; i++) {
     cols.push(
       <Link
-        href="/dashboard/[projectId]/services/[service]"
-        as={`/dashboard/${projectId}/services/${data[i].id}`}
+        href="/home/[projectId]/services/[service]"
+        as={`/home/${projectId}/services/${data[i].id}`}
       >
         <Col
           className={styles.column}
@@ -134,7 +134,7 @@ const HomeComponent = (props) => {
         <div className={styles.topBar}>
           <Row style={{ paddingLeft: "10px", paddingTop: "10px" }}>
             <h2>
-              <b>Project Overview</b>
+              <b>Your Cart</b>
             </h2>
           </Row>
           <Divider />
@@ -145,19 +145,21 @@ const HomeComponent = (props) => {
         <Divider style={{ borderTop: "1px solid white" }} />
 
         <div style={{ marginTop: "10px", padding: "20px" }}>
-          <Row className={styles.row}>
-            <h4>My Services</h4>
-            <h4 style={{ paddingLeft: "10px" }}>{colCount}</h4>
-          </Row>
+            <Row className={styles.row}>
+              <h4>Items In Cart</h4>
+              <h4 style={{ paddingLeft: "10px" }}>{colCount}</h4>
+            </Row>
           <Row>
-            <center>
-              <img alt="icon" src="/images/empty.png" />
-            </center>
-          </Row>
-          <Row>
-            <center>
-              <h2>No Services enabled yet! Browse services from left bar.</h2>
-            </center>
+              <Row>
+                <center>
+                  <img style={{maxHeight:"100px"}} alt="icon" src="/images/empty.png" />
+                </center>
+              </Row>
+              <Row style={{marginTop:"25px"}}>
+                <center>
+                  <h2>No products in cart yet! Browse products from left bar.</h2>
+                </center>
+              </Row>
           </Row>
         </div>
       </div>
@@ -178,7 +180,7 @@ const HomeComponent = (props) => {
       <div className={styles.topBar}>
         <Row style={{ paddingLeft: "10px", paddingTop: "10px" }}>
           <h2>
-            <b>Project Overview</b>
+            <b>Your Cart</b>
           </h2>
         </Row>
         <Divider />
@@ -241,7 +243,7 @@ const HomeComponent = (props) => {
       {showContent ? (
         <div style={{ marginTop: "10px", padding: "20px" }}>
           <Row className={styles.row}>
-            <h4>My Services</h4>
+            <h4>Items in cart</h4>
             <h4 style={{ paddingLeft: "10px" }}>{colCount}</h4>
           </Row>
           <Row
