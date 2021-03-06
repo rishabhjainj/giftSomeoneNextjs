@@ -157,9 +157,9 @@ import React, {
         return response;
       }
     };
-    const login = async (username, password) => {
+    const login = async (email, password) => {
       try {
-        const { data: token } = await api.post("login/", { username, password });
+        const { data: token } = await api.post("api-token-auth/", { email, password });
   
         if (token) {
           Cookies.set("token", "token " + token.token, { expires: 60 });
@@ -168,7 +168,7 @@ import React, {
           return token.token;
         }
       } catch (err) {
-        return { token: "error" };
+        return { token: "error"+err };
       }
       // } else {
       //   console.log("error");
