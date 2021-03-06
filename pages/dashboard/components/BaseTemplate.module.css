@@ -1,0 +1,33 @@
+.logo {
+  height: 40px;
+  margin: 16px;
+}
+
+@media screen and (max-width: 767px) {
+  .headlogo {
+    background-image: url("/image/logo.png");
+    display: block;
+  }
+
+}
+
+
+@media screen and (min-width: 992px) {
+  .headlogo {
+    display: none;
+  }
+
+  .layout {
+    margin-left: 200px;
+
+  }
+}
+
+
+.site-layout-sub-header-background {
+  background: #fff;
+}
+
+.site-layout-background {
+  background: #fff;
+}

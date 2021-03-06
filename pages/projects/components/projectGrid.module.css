@@ -1,0 +1,39 @@
+.column {
+  height: 250px;
+  font-size: 14px;
+  padding: 15px;
+  border-radius: 15px;
+}
+
+.row {
+  padding-right: 100px;
+  padding-left: 100px;
+}
+
+.card {
+  min-height: 180px;
+  max-height: 230px;
+  border-radius: 10px;
+  padding: 5px;
+}
+
+.addCard {
+  min-height: 180px;
+  border-radius: 10px;
+  padding: 5px;
+  background: white;
+}
+
+.ant-card .ant-card-actions {
+  background: lavender;
+}
+
+.row {
+  margin-top: 20px;
+}
+
+.image {
+  padding: 10px;
+  height: 80px;
+  width: auto;
+}
