@@ -4,7 +4,7 @@ import Project from "./projects/projects";
 import TitleFragment from './TitleFragment'
 export default function Home(){
   return (
-    <TitleFragment title="Add Project">
+    <TitleFragment title="Categories">
       <Project />
     </TitleFragment>
     )

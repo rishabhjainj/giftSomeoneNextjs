@@ -29,6 +29,7 @@ import {
 } from "antd";
 import {
   MenuUnfoldOutlined,
+  ShoppingCartOutlined,
   QuestionOutlined,
   SearchOutlined,
   MenuFoldOutlined,
@@ -66,13 +67,6 @@ const BaseTemplate = (props) => {
   useEffect(() => {
     setLoading(false);
 
-    if (!isAuthenticated) Router.push("/login/login-page/");
-    else {
-      const response = getCategories();
-      response.then((value) => {
-        setCategories(value);
-      });
-    }
   }, [logout, isAuthenticated]);
 
   const [collapsed, setCollapsed] = useState(false);
@@ -85,10 +79,10 @@ const BaseTemplate = (props) => {
     <Menu>
       <Menu.Item>
         <Link
-          href="/home/[projectId]/settings"
-          as={`/home/${projectId}/settings`}
+          href="/home/settings"
+          as={`/home/settings`}
         >
-          Project Settings
+          Account Settings
         </Link>
       </Menu.Item>
       {/* <Menu.Item>
@@ -168,28 +162,36 @@ const BaseTemplate = (props) => {
           }
         >
           <Menu.Item key="1" icon={<BranchesOutlined />}>
-            <Link href="/home/[projectId]" as={`/home/${projectId}`}>
-              Overview
+            <Link href="/home/" as={`/home/`}>
+              Home
             </Link>
           </Menu.Item>
           <Menu.Item key="2" icon={<KeyOutlined />}>
             <Link
-              href="/home/[projectId]/Credentials"
-              as={`/home/${projectId}/Credentials`}
+              href="/home/Search"
+              as={`/home/Search`}
             >
-              Credentials
+              Search
             </Link>
           </Menu.Item>
           <Menu.Item key="3" icon={<SettingOutlined />}>
             <Link
-              href="/home/[projectId]/settings"
-              as={`/home/${projectId}/settings`}
+              href="/home/settings"
+              as={`/home/settings`}
             >
               Settings
             </Link>
           </Menu.Item>
           <Menu.Item key="4" icon={<MoneyCollectOutlined />}>
-            Billing
+            Past Orders
+          </Menu.Item>
+          <Menu.Item key="5" icon={<MoneyCollectOutlined />}>
+          <Link
+              href="/home/cart"
+              as={`/home/cart`} 
+            >
+              Your Cart
+            </Link>
           </Menu.Item>
         </Menu.ItemGroup>
         <Divider style={{ "background-color": "blue" }} />
@@ -199,7 +201,7 @@ const BaseTemplate = (props) => {
             <>
               <ApiOutlined />
               <span style={{ paddingLeft: "10px" }}>
-                <b>Services</b>
+                <b>Categories</b>
               </span>
             </>
           }
@@ -274,7 +276,7 @@ const BaseTemplate = (props) => {
               <Row>
                 <Col xs={16} sm={18} md={18} lg={14} xl={11}>
                   <span float={"left"} style={{ color: "#0c1b33" }}>
-                    <b>Try Recommender</b>
+                    <b>GiftSomeOne!</b>
                   </span>
                 </Col>
 
@@ -286,8 +288,8 @@ const BaseTemplate = (props) => {
                       </Badge>
                     </span>
                   </Dropdown>
-                  <a href="mailto:admin@skylarklabs.ai">
-                    <Tooltip title="Help">
+                  <a href="mailto:admin@test.com">
+                    <Tooltip title="Cart">
                       <Button
                         type="primary"
                         style={{
@@ -297,7 +299,7 @@ const BaseTemplate = (props) => {
                           borderColor: "black",
                         }}
                         shape="circle"
-                        icon={<QuestionOutlined />}
+                        icon={<ShoppingCartOutlined />}
                       />
                     </Tooltip>
                   </a>

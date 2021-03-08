@@ -1,11 +1,11 @@
-import useAuth from "../../../auth/authContext";
+import useAuth from "../../auth/authContext";
 import { Table, Button, Row, Col } from "antd";
 import { render } from "react-dom";
 import { useState, useEffect } from "react";
 import Axios from "axios";
-import TitleFragment from "../../TitleFragment";
-import BaseTemplate from "../components/BaseTemplate";
-import APIKeyTable from "./components/Apikeytable";
+import TitleFragment from "../TitleFragment";
+import BaseTemplate from "../home/components/BaseTemplate";
+
 import { useRouter } from "next/router";
 
 const apiURL = `http://localhost:9000/`;
@@ -40,11 +40,11 @@ function Apikeytablecomponent() {
   // };
 
   return (
-    <TitleFragment title="APIKeyTable">
+    <TitleFragment title="products">
       <BaseTemplate
         content={
           <div>
-            <APIKeyTable />
+           
           </div>
         }
       />

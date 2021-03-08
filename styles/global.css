@@ -1,6 +1,8 @@
 @import "~antd/dist/antd.css";
 @import '~ant-design-pro/dist/ant-design-pro.css';
 @import url("http://fonts.googleapis.com/css?family=Lato:400,700");
+@import '~antd/dist/antd.dark.css';
+@import '~antd/dist/antd.compact.css';
 
 html,
 body {

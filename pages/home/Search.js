@@ -1,15 +1,13 @@
 import { useRouter, withRouter } from "next/router";
 import React, { useEffect, useState } from "react";
 import dynamic from "next/dynamic";
-import BaseTemplate from "../components/BaseTemplate";
-import SettingsComponent from "./components/SettingsComponent";
-import TitleFragment from "../../TitleFragment";
-
-import useAuth from "../../../auth/authContext";
+import useAuth from "../../auth/authContext";
+import BaseTemplate from "./components/BaseTemplate";
+import TitleFragment from "../TitleFragment";
 
 import Apikeytablecomponent from "./Apikeytablecomponent";
 
-const Settings = () => {
+const Credentials = () => {
   const { getProjectById } = useAuth();
 
   const [data, setData] = useState({});
@@ -18,7 +16,7 @@ const Settings = () => {
   const router = useRouter();
   const { projectId } = router.query;
 
-  const list = ["3"];
+  const list = ["2"];
   useEffect(() => {
     const response = getProjectById(projectId);
     response.then((value) => {
@@ -28,13 +26,13 @@ const Settings = () => {
     });
   }, [getProjectById]);
   return (
-    <TitleFragment title="APIKeyTable">
+    <TitleFragment title="Search">
       <BaseTemplate
         selected={list}
         projectData={data}
         content={
           <div>
-            <SettingsComponent loading={loading} projectData={data} />
+            
           </div>
         }
       />
@@ -42,4 +40,4 @@ const Settings = () => {
   );
 };
 
-export default Settings;
+export default Credentials;

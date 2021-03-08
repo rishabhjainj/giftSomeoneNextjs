@@ -19,7 +19,7 @@ const loginEndpoint = "login/";
 
 const LoginComponent = () => {
   const stopRecord = null;
-  const { login, logout, isAuthenticated, getProjects } = useAuth();
+  const { login, logout, isAuthenticated } = useAuth();
   const [loading, setLoading] = useState(false);
 
   useEffect(() => {

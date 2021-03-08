@@ -64,16 +64,16 @@ const ProjectGrid = (props) => {
       key={i.toString()}
       span={24 / 4}
     >
-      <Card hoverable className={styles.addCard}>
+      {/* <Card hoverable className={styles.addCard}>
         <center>
           <AppstoreAddOutlined style={{ color: "#2db4ed", fontSize: "60px" }} />
           <h2 style={{ color: "#2db4ed" }}>Create New</h2>
         </center>
-      </Card>
+      </Card> */}
     </Col>
   );
   for (i = 0; i < colCount; i++) {
-    const link = "/home/".concat(projectList[i].id);
+    const link = "/home/";
     cols.push(
       <Link href={link}>
         <Col
@@ -100,7 +100,7 @@ const ProjectGrid = (props) => {
               </center>
             }
           >
-            {projectList[i].description}
+            <h1>{projectList[i]}</h1>
           </Card>
         </Col>
       </Link>

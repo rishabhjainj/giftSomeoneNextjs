@@ -15,119 +15,22 @@ import {
   Tooltip,
   Menu,
 } from "antd";
-import { QuestionOutlined, UserOutlined } from "@ant-design/icons";
+import { QuestionOutlined, UserOutlined,ShoppingCartOutlined } from "@ant-design/icons";
 
 import useAuth, { ProtectRoute } from "../../auth/authContext";
 
-const CreateProjectForm = ({ visible, onCreate, onCancel }) => {
-  const [form] = Form.useForm();
-  const openNotification = (placement) => {
-    notification.open({
-      type: "success",
-      message: "Success!",
-      description: "Project created successfully!",
-      placement,
-      onClick: () => {
-        console.log("Notification Clicked!");
-      },
-    });
-  };
-
-  return (
-    <Modal
-      visible={visible}
-      title="Create a new collection"
-      okText="Create"
-      cancelText="Cancel"
-      onCancel={onCancel}
-      onOk={() => {
-        form
-          .validateFields()
-          .then((values) => {
-            form.resetFields();
-            onCreate(values);
-          })
-          .catch((info) => {
-            console.log("Validate Failed:", info);
-          });
-      }}
-    >
-      <Form
-        form={form}
-        layout="vertical"
-        name="form_in_modal"
-        initialValues={{
-          modifier: "public",
-        }}
-      >
-        <Form.Item
-          name="title"
-          label="Project Title"
-          rules={[
-            {
-              required: true,
-              message: "Please input the title of collection!",
-            },
-          ]}
-        >
-          <Input />
-        </Form.Item>
-        <Form.Item
-          name="description"
-          label="Project Description"
-          rules={[
-            {
-              required: true,
-              message: "Please provide a description for your project",
-            },
-          ]}
-        >
-          <Input type="textarea" />
-        </Form.Item>
-      </Form>
-    </Modal>
-  );
-};
 
 const Project = () => {
   const [visible, setVisible] = useState(false);
-  const [projectList, setProjectList] = useState({});
+
   const [loading, setLoading] = useState(true);
-  const openNotification = (placement) => {
-    notification.open({
-      type: "success",
-      message: "Success!",
-      description: "Project created successfully!",
-      placement,
-      onClick: () => {
-        console.log("Notification Clicked!");
-      },
-    });
-  };
-  const onCreate = (values) => {
-    console.log("Recieved values of form:", values);
-
-    //call api here for submitting values on project create
-    const response = addProject(values.title, values.description);
-    response.then(function (value) {
-      console.log(value);
-      //Notification("success", "Success", "Project created successfully!");
-      openNotification("topRight");
-      //...............fetch project list again here...........
-      const response = getProjects();
-      response.then(function (value) {
-        console.log(value);
-        setProjectList(value);
-      });
-    });
-
-    setVisible(false);
-  };
+  
+ 
   const menu = (
     <Menu>
       {/* <Menu.Item>
         <a target="_blank" rel="noopener noreferrer" href="#">
-          Project Settings
+          Account Settings
         </a>
       </Menu.Item> */}
       {/* <Menu.Item>
@@ -152,35 +55,7 @@ const Project = () => {
 
   const Header = () => {
     return (
-      // <Row
-      //   style={{
-      //     padding: "0 10px 10px 10px",
-      //     display: "flex",
-      //     background: "black",
-      //     width: "100vw",
-      //     height: "80px",
-      //   }}
-      // >
-      //   <Col xs={4} sm={8} lg={8} xl={8} md={8}>
-      //     <Row style={{ marginTop: "20px" }}>
-      //       <img src="/images/logo.png" width="120px" height="40px" />
-      //     </Row>
-      //   </Col>
-      //   <Col xs={0} sm={2} lg={4} xl={10} md={4}></Col>
-      //   <Col xs={20} sm={14} lg={14} xl={6} md={12}>
-      //     <Button
-      //       type="primary"
-      //       style={{
-      //         align: "right",
-      //         marginLeft: "40px",
-      //         background: "black",
-      //         borderColor: "black",
-      //       }}
-      //       shape="circle"
-      //       icon={<QuestionOutlined />}
-      //     />
-      //   </Col>
-      // </Row>
+    
 
       <Row style={{ padding: "15px 10px 10px 10px", background: "white" }}>
         <Col xs={0} sm={0} lg={14} xl={0} md={0}></Col>
@@ -198,7 +73,7 @@ const Project = () => {
           <Row>
             <Col xs={16} sm={18} md={18} lg={14} xl={11}>
               <span float={"left"} style={{ color: "#0c1b33" }}>
-                <b>Try Recommender</b>
+                <b>GiftSomeOne!</b>
               </span>
             </Col>
 
@@ -210,8 +85,8 @@ const Project = () => {
                   </Badge>
                 </span>
               </Dropdown>
-              <a href="mailto:admin@skylarklabs.ai">
-                <Tooltip title="Help">
+              <a href="mailto:admin@test.com">
+                <Tooltip title="Cart">
                   <Button
                     type="primary"
                     style={{
@@ -221,7 +96,7 @@ const Project = () => {
                       borderColor: "black",
                     }}
                     shape="circle"
-                    icon={<QuestionOutlined />}
+                    icon={<ShoppingCartOutlined />}
                   />
                 </Tooltip>
               </a>
@@ -256,33 +131,20 @@ const Project = () => {
     );
   };
 
-  const { logout, getProjects, addProject } = useAuth();
+  const { logout,} = useAuth();
+  var categoryList = [ 'cat1',
+  'cat2',
+  'cat3',
+  'cat4',
 
-  useEffect(() => {
-    setLoading(false);
-    const response = getProjects();
-    response.then(function (value) {
-      console.log(value);
-      setProjectList(value);
-    });
-  }, [logout, getProjects]);
+];
+   
 
-  if (loading) {
-    return null;
-  }
   return (
     <div style={{ background: "#e6ecf5", minHeight: "100vh" }}>
       <Header />
       <TopBar />
-      <ProjectGrid handler={showDialog} projects={projectList} />
-
-      <CreateProjectForm
-        visible={visible}
-        onCreate={onCreate}
-        onCancel={() => {
-          setVisible(false);
-        }}
-      />
+      <ProjectGrid handler={showDialog} projects={categoryList} />
     </div>
   );
 };

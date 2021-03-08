@@ -199,9 +199,9 @@ import React, {
       <AuthContext.Provider
         value={{
           isAuthenticated: !!Cookies.get("token"),
-          user,
+         
           login,
-          loading,
+         
           logout,
           getProjects,
           getUsageByPoints,
