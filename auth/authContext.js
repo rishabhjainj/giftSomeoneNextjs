@@ -8,6 +8,7 @@ import React, {
   import Cookies from "js-cookie";
   import Router, { useRouter } from "next/router";
   import api from "../services/apiClient";
+  import axios from 'axios';
   
   const AuthContext = createContext({});
   
@@ -17,7 +18,7 @@ import React, {
   
     useEffect(() => {
       async function loadUserFromCookies() {
-        const token = Cookies.get("token");
+        const token = "JWT "+Cookies.get("token");
         if (token) {
           api.defaults.headers.Authorization = `${token}`;
         }
@@ -39,6 +40,7 @@ import React, {
         return response;
       }
     };
+  
     const enableService = async (projectId, service) => {
       const { data: response } = await api.post(
         "console/projects/".concat(`${projectId}`).concat("/enable_service/"),
@@ -145,26 +147,34 @@ import React, {
     };
   
     const getCategories = async () => {
-      const { data: response } = await api.get("console/categories");
+      
+      const { data: response } = await api.get("api/categories/").catch(err => err);
       if (response) {
         return response;
       }
     };
-  
+    const getProductList = async() =>{
+      const { data : response } = await api.get("api/products/").catch(err => err);
+      if(response){
+        console.log(response);
+        return response;
+      }
+    };
     const getProjects = async () => {
       const { data: response } = await api.get("console/projects/");
       if (response) {
         return response;
       }
     };
+   
     const login = async (email, password) => {
       try {
-        const { data: token } = await api.post("api-token-auth/", { email, password });
+        const { data: token } = await api.post("login/", { email, password });
   
         if (token) {
-          Cookies.set("token", "token " + token.token, { expires: 60 });
-          api.defaults.headers.Authorization = `token ${token.token}`;
-          window.location.pathname = "/projects/projects";
+          Cookies.set("token", token.token, { expires: 60 });
+          api.defaults.headers.common['authorization']  = `JWT ${token.token}`;
+          window.location.pathname = "/home";
           return token.token;
         }
       } catch (err) {
@@ -203,6 +213,7 @@ import React, {
           login,
          
           logout,
+          getProductList,
           getProjects,
           getUsageByPoints,
           addProject,

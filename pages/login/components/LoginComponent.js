@@ -23,7 +23,7 @@ const LoginComponent = () => {
   const [loading, setLoading] = useState(false);
 
   useEffect(() => {
-    if (isAuthenticated) window.location.pathname = "/";
+    if (isAuthenticated) window.location.pathname = "/home";
   }, [logout, isAuthenticated]);
 
   const [username, setUsername] = useState("");

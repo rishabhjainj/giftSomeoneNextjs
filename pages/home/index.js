@@ -11,24 +11,25 @@ const HomeComponent = dynamic(() => import("./components/HomeComponent"), {
 // import HomeComponent from "../components/HomeComponent";
 
 const Index = () => {
+  const { getProductList, getCategories } = useAuth();
   const router = useRouter();
-  const { projectId } = router.query;
-  const [projectData, setProjectData] = useState({});
-  const list = ["1"];
+  const [productList, setProductList] = useState({});
+  const [categoryList, setCategoryList] = useState({});
 
-  // useEffect(() => {
-  //   const response = getProjectById(projectId);
-  //   response.then(function (value) {
-  //     setProjectData(value);
-  //   });
-  // }, [getProjectById]);
-
+  useEffect(()=>{
+    const response = getProductList();
+    response.then(function (value){
+      setProductList(value);
+    });
+    // const categoryResponse = getCategories();
+    // categoryResponse.then((value)=>{
+    //   setCategoryList(value);
+    // });
+  }, [getProductList]);
   return (
     <TitleFragment title="Home">
       <BaseTemplate
-        selected={list}
-        projectData={projectData}
-        content={<HomeComponent services={projectData} />}
+        content={<HomeComponent categories = {categoryList} products={productList} />}
       />
     </TitleFragment>
   );

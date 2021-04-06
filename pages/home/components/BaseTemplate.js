@@ -64,8 +64,17 @@ const BaseTemplate = (props) => {
   const data = props.projectData;
   const list = props.selected;
 
+
   useEffect(() => {
     setLoading(false);
+    if(!isAuthenticated) Router.push("/login/login-page/");
+    else{
+      const response = getCategories();
+      response.then((value)=>{
+        console.log(value);
+        setCategories(value);
+      });
+    }
 
   }, [logout, isAuthenticated]);
 
@@ -115,30 +124,10 @@ const BaseTemplate = (props) => {
     let j = 0;
     let subMenuKeyList = [];
     for (i = 0; i < categories.length; i++) {
-      subMenuList = [];
-      for (j = 0; j < categories[i].services.length; j++) {
-        const services = categories[i].services;
-
-        subMenuList.push(
-          <Menu.Item key={"sub".concat(j.toString())}>
-            <Link
-              href="/home/[projectId]/services/[service]"
-              as={`/home/${projectId}/services/${services[j].id}`}
-            >
-              {services[j].name}
-            </Link>
-          </Menu.Item>
-        );
-      }
-      subMenuKeyList.push("sub".concat(i.toString()));
       menu.push(
-        <SubMenu
-          key={"sub".concat(i.toString())}
-          icon={<UserOutlined />}
-          title={categories[i].name}
-        >
-          {subMenuList}
-        </SubMenu>
+        <Menu.Item key={i.toString()} icon={<BranchesOutlined />}>
+          {categories[i].name}
+       </Menu.Item>
       );
     }
 
@@ -162,50 +151,32 @@ const BaseTemplate = (props) => {
           }
         >
           <Menu.Item key="1" icon={<BranchesOutlined />}>
-            <Link href="/home/" as={`/home/`}>
-              Home
+            <Link href="/dashboard/[projectId]" as={`/dashboard/${projectId}`}>
+              Overview
             </Link>
           </Menu.Item>
           <Menu.Item key="2" icon={<KeyOutlined />}>
             <Link
-              href="/home/Search"
-              as={`/home/Search`}
+              href="/dashboard/[projectId]/Credentials"
+              as={`/dashboard/${projectId}/Credentials`}
             >
-              Search
+              Credentials
             </Link>
           </Menu.Item>
           <Menu.Item key="3" icon={<SettingOutlined />}>
             <Link
-              href="/home/settings"
-              as={`/home/settings`}
+              href="/dashboard/[projectId]/settings"
+              as={`/dashboard/${projectId}/settings`}
             >
               Settings
             </Link>
           </Menu.Item>
           <Menu.Item key="4" icon={<MoneyCollectOutlined />}>
-            Past Orders
-          </Menu.Item>
-          <Menu.Item key="5" icon={<MoneyCollectOutlined />}>
-          <Link
-              href="/home/cart"
-              as={`/home/cart`} 
-            >
-              Your Cart
-            </Link>
+            Billing
           </Menu.Item>
         </Menu.ItemGroup>
         <Divider style={{ "background-color": "blue" }} />
-        <Menu.ItemGroup
-          key="g2"
-          title={
-            <>
-              <ApiOutlined />
-              <span style={{ paddingLeft: "10px" }}>
-                <b>Categories</b>
-              </span>
-            </>
-          }
-        >
+        <Menu.ItemGroup key="5"  title="Categories">
           {menu}
         </Menu.ItemGroup>
       </Menu>
