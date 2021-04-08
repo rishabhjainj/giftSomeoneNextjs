@@ -41,7 +41,16 @@ import React, {
       }
     };
   
-    const enableService = async (projectId, service) => {
+    const enableService = async (projectId, product) => {
+      const { data: response } = await api.post(
+        "console/projects/".concat(`${projectId}`).concat("/enable_service/"),
+        { product }
+      );
+      if (response) {
+        return response;
+      }
+    };
+    const addToCart = async (projectId, service) => {
       const { data: response } = await api.post(
         "console/projects/".concat(`${projectId}`).concat("/enable_service/"),
         { service }
@@ -136,9 +145,10 @@ import React, {
         return response;
       }
     };
-    const getProjectById = async (id) => {
+    const getProductById = async (id) => {
+      console.log("id is "+id);
       const { data: response } = await api.get(
-        "console/projects/".concat(`${id}`),
+        "api/products/".concat(`${id}`),
         {}
       );
       if (response) {
@@ -156,7 +166,6 @@ import React, {
     const getProductList = async() =>{
       const { data : response } = await api.get("api/products/").catch(err => err);
       if(response){
-        console.log(response);
         return response;
       }
     };
@@ -174,6 +183,12 @@ import React, {
         if (token) {
           Cookies.set("token", token.token, { expires: 60 });
           api.defaults.headers.common['authorization']  = `JWT ${token.token}`;
+          api.defaults.headers.common['Access-Control-Allow-Origin'] = `*`;
+          api.defaults.headers.common['Access-Control-Allow-Methods'] = `GET, POST, PATCH, PUT, DELETE, OPTIONS`;
+          api.defaults.headers.common['Access-Control-Allow-Headers'] = `Origin, Content-Type, X-Auth-Token`;
+          
+
+          
           window.location.pathname = "/home";
           return token.token;
         }
@@ -220,7 +235,7 @@ import React, {
           addProjectAPIKey,
           DeleteProjectAPIKey,
           getProjectAPIKey,
-          getProjectById,
+          getProductById,
           getCategories,
           getServiceById,
           serviceIsEnabled,

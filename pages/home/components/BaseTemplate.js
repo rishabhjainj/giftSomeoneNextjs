@@ -71,7 +71,6 @@ const BaseTemplate = (props) => {
     else{
       const response = getCategories();
       response.then((value)=>{
-        console.log(value);
         setCategories(value);
       });
     }
@@ -115,7 +114,9 @@ const BaseTemplate = (props) => {
   );
 
   const NavMenu = (props) => {
-    const categories = props.data;
+    const categoriesData = props ? props.data : null;
+    const categories = categoriesData ? categoriesData.results  : null;
+
     let menu = [];
     let menuList = [];
     let subMenu = [];
@@ -123,13 +124,14 @@ const BaseTemplate = (props) => {
     let i = 0;
     let j = 0;
     let subMenuKeyList = [];
-    for (i = 0; i < categories.length; i++) {
-      menu.push(
-        <Menu.Item key={i.toString()} icon={<BranchesOutlined />}>
-          {categories[i].name}
-       </Menu.Item>
-      );
-    }
+    if(categories) 
+      for (i = 0; i < categories.length; i++) {
+        menu.push(
+          <Menu.Item key={i.toString()} icon={<BranchesOutlined />}>
+            {categories[i].name}
+        </Menu.Item>
+        );
+      }
 
     return (
       <Menu

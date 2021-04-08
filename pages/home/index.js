@@ -17,15 +17,22 @@ const Index = () => {
   const [categoryList, setCategoryList] = useState({});
 
   useEffect(()=>{
-    const response = getProductList();
-    response.then(function (value){
-      setProductList(value);
+    const categoryResponse = getCategories();
+    categoryResponse.then((value)=>{
+      if(value!=null)
+        setCategoryList(value);
     });
-    // const categoryResponse = getCategories();
-    // categoryResponse.then((value)=>{
-    //   setCategoryList(value);
-    // });
-  }, [getProductList]);
+  }, [getCategories]);
+
+  useEffect(()=>{
+    const response = getProductList();
+    response.then((value)=>{
+        if(value!=null)
+          setProductList(value);
+    });
+  },[getProductList]);
+
+
   return (
     <TitleFragment title="Home">
       <BaseTemplate
