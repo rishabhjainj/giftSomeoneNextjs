@@ -59,6 +59,16 @@ export const AuthProvider = ({ children }) => {
       return response;
     }
   };
+  const removeFromCart = async (cart_id, product) => {
+    console.log(product);
+    const { data: response } = await api.post(
+      "api/orders/".concat(`${cart_id}`).concat("/remove_from_cart/"),
+      { product }
+    );
+    if (response) {
+      return response;
+    }
+  };
 
   const getCart = async (cart_id) => {
     const { data: response } = await api.get(
@@ -257,6 +267,7 @@ export const AuthProvider = ({ children }) => {
         serviceIsEnabled,
         enableService,
         addToCart,
+        removeFromCart,
         getCart,
         updateApiKeyName,
         disableService,

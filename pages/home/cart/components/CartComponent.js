@@ -17,6 +17,7 @@ import {
   Rate,
   Row,
 } from "antd";
+import Link from "next/link";
 import { useRouter, withRouter } from "next/router";
 const { Meta } = Card;
 import {
@@ -24,6 +25,7 @@ import {
   ExclamationCircleOutlined,
   HeartTwoTone,
   CheckCircleTwoTone,
+  MinusCircleOutlined,
   PlusCircleOutlined,
   ShoppingCartOutlined,
   DeleteOutlined,
@@ -52,13 +54,14 @@ function getDiscountPrice(price, discount) {
 }
 
 const Cart = (props) => {
-  const { deleteProject, addToCart, getCart } = useAuth();
+  const { deleteProject, addToCart, getCart, removeFromCart } = useAuth();
 
   const [data, setCartData] = useState({});
 
   const [visible, setVisible] = useState(false);
   const [loading, setLoading] = useState(true);
   const [confirmVisible, setconfirmVisible] = useState(false);
+  const [checkOutEnable, setCheckOutEnabled] = useState(false);
 
   const name = data ? data.title : null;
 
@@ -76,6 +79,13 @@ const Cart = (props) => {
     response.then(function (value) {
       setLoading(false);
       setCartData(value);
+      if (value) {
+        if (value.length > 0 && value[0].amount > 0) {
+          setCheckOutEnabled(true);
+        } else {
+          setCheckOutEnabled(false);
+        }
+      }
     });
   };
 
@@ -85,6 +95,7 @@ const Cart = (props) => {
   let i = 0;
   for (i = 0; i < len; i++) {
     const product = products[i].product;
+    const link = "/home/".concat(product.id);
     cartCards.push(
       <Col
         style={{ display: "block" }}
@@ -105,32 +116,49 @@ const Cart = (props) => {
           <div>
             {/* <Tag color="gold">{productList[i].category.name}</Tag> */}
             <Row>
-              <Col lg={12}>
-                <img
-                  className={styles.image}
-                  alt="icon"
-                  src={"http://localhost:8002" + product.image}
-                />
-                <Rate disabled defaultValue={4} />
-              </Col>
+              <Link href={link}>
+                <Col lg={12}>
+                  <img
+                    className={styles.image}
+                    alt="icon"
+                    src={"http://localhost:8002" + product.image}
+                  />
+                  <Rate disabled defaultValue={4} />
+                </Col>
+              </Link>
               <Col lg={6}></Col>
               <Col>
                 <Row>
                   <div className={styles.price_wrapper}>
                     <Row>
                       <div>
-                        <h2>Quantity : {products[i].quantity}</h2>
+                        <Row>
+                          <Button
+                            className={styles.btn}
+                            icon={<PlusCircleOutlined />}
+                            size={4}
+                            onClick={() => addProductToCart(product.id, 1)}
+                          ></Button>
+                          <h2>QTY : {products[i].quantity}</h2>
+                          <Button
+                            className={styles.btn}
+                            type="danger"
+                            icon={<MinusCircleOutlined />}
+                            size={4}
+                            onClick={() => removeProduct(mCart.id, product.id)}
+                          ></Button>
+                        </Row>
                         <Button
-                          icon={<PlusCircleOutlined />}
-                          size={4}
-                          onClick={() => addProductToCart(product.id, 1)}
-                        ></Button>
-                        <Button
+                          className={styles.btn}
+                          type="danger"
                           style={{ marginLeft: "10px" }}
                           icon={<DeleteOutlined />}
                           onClick={() => deleteItem(product.id, 0)}
                           size={4}
-                        ></Button>
+                        >
+                          {" "}
+                          DELETE
+                        </Button>
                       </div>
                     </Row>
                   </div>
@@ -175,8 +203,22 @@ const Cart = (props) => {
       // }, 2000);
     });
   };
+
+  const removeProduct = (cart_id, id) => {
+    console.log("cartid" + cart_id);
+    const response = removeFromCart(cart_id, id);
+    response.then((value) => {
+      console.log("deleted");
+
+      setconfirmVisible(false);
+      updateCart();
+      // setTimeout(() => {
+      //   window.location.pathname = "/";
+      // }, 2000);
+    });
+  };
   const deleteItem = (id, qty) => {
-    addProductToCart(id, qty);
+    addProductToCart(id, 0);
   };
 
   const ConfirmDialog = () => {
@@ -293,9 +335,20 @@ const Cart = (props) => {
           </Col>
           <Col>
             <div>
-              <Button type="primary" icon={<ShoppingCartOutlined />} size={4}>
-                CHECKOUT
-              </Button>
+              {checkOutEnable ? (
+                <Button type="primary" icon={<ShoppingCartOutlined />} size={4}>
+                  CHECKOUT
+                </Button>
+              ) : (
+                <Button
+                  type="primary"
+                  icon={<ShoppingCartOutlined />}
+                  size={4}
+                  disabled
+                >
+                  CHECKOUT
+                </Button>
+              )}
             </div>
           </Col>
         </Row>

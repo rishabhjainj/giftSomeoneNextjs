@@ -64,17 +64,15 @@ const BaseTemplate = (props) => {
   const data = props.projectData;
   const list = props.selected;
 
-
   useEffect(() => {
     setLoading(false);
-    if(!isAuthenticated) Router.push("/login/login-page/");
-    else{
+    if (!isAuthenticated) Router.push("/login/login-page/");
+    else {
       const response = getCategories();
-      response.then((value)=>{
+      response.then((value) => {
         setCategories(value);
       });
     }
-
   }, [logout, isAuthenticated]);
 
   const [collapsed, setCollapsed] = useState(false);
@@ -86,10 +84,7 @@ const BaseTemplate = (props) => {
   const menu = (
     <Menu>
       <Menu.Item>
-        <Link
-          href="/home/settings"
-          as={`/home/settings`}
-        >
+        <Link href="/home/settings" as={`/home/settings`}>
           Account Settings
         </Link>
       </Menu.Item>
@@ -115,7 +110,7 @@ const BaseTemplate = (props) => {
 
   const NavMenu = (props) => {
     const categoriesData = props ? props.data : null;
-    const categories = categoriesData ? categoriesData.results  : null;
+    const categories = categoriesData ? categoriesData.results : null;
 
     let menu = [];
     let menuList = [];
@@ -124,12 +119,12 @@ const BaseTemplate = (props) => {
     let i = 0;
     let j = 0;
     let subMenuKeyList = [];
-    if(categories) 
+    if (categories)
       for (i = 0; i < categories.length; i++) {
         menu.push(
           <Menu.Item key={i.toString()} icon={<BranchesOutlined />}>
             {categories[i].name}
-        </Menu.Item>
+          </Menu.Item>
         );
       }
 
@@ -153,9 +148,7 @@ const BaseTemplate = (props) => {
           }
         >
           <Menu.Item key="1" icon={<BranchesOutlined />}>
-            <Link href="/dashboard/[projectId]" as={`/dashboard/${projectId}`}>
-              Overview
-            </Link>
+            <Link href={"/home/"}>Home</Link>
           </Menu.Item>
           <Menu.Item key="2" icon={<KeyOutlined />}>
             <Link
@@ -178,7 +171,7 @@ const BaseTemplate = (props) => {
           </Menu.Item>
         </Menu.ItemGroup>
         <Divider style={{ "background-color": "blue" }} />
-        <Menu.ItemGroup key="5"  title="Categories">
+        <Menu.ItemGroup key="5" title="Categories">
           {menu}
         </Menu.ItemGroup>
       </Menu>
@@ -261,7 +254,8 @@ const BaseTemplate = (props) => {
                       </Badge>
                     </span>
                   </Dropdown>
-                  <a href="mailto:admin@test.com">
+
+                  <Link href={"/home/cart"}>
                     <Tooltip title="Cart">
                       <Button
                         type="primary"
@@ -275,7 +269,7 @@ const BaseTemplate = (props) => {
                         icon={<ShoppingCartOutlined />}
                       />
                     </Tooltip>
-                  </a>
+                  </Link>
                 </Col>
               </Row>
             </Col>
@@ -283,9 +277,7 @@ const BaseTemplate = (props) => {
         </Header>
 
         <Content style={{ margin: "24px 16px 0" }}>{props.content}</Content>
-        <Footer style={{ textAlign: "center" }}>
-          GiftSomeOne ©2021
-        </Footer>
+        <Footer style={{ textAlign: "center" }}>GiftSomeOne ©2021</Footer>
       </Layout>
     </Layout>
   );
