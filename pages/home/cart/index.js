@@ -2,32 +2,32 @@ import React from "react";
 import {useEffect, useState} from "react";
 import { useRouter, withRouter } from "next/router";
 import BaseTemplate from "../components/BaseTemplate";
-import SettingsComponent from "./components/SettingsComponent";
+import CartComponent from "./components/CartComponent";
 import TitleFragment from "../../TitleFragment";
 import dynamic from "next/dynamic";
 import useAuth from "../../../auth/authContext"
 const Index = () => {
-    const {getProductById} = useAuth();
+    const {getProductById, getCart} = useAuth();
     const router = useRouter();
     const { productId } = router.query;
     const [loading, setLoading] = useState(true);
-    const [productData, setProjectData] = useState({});
+    const [cartData, setCartData] = useState({});
     useEffect(() => {
-        const response = getProductById(productId);
+        const response = getCart(1);
         response.then(function (value) {
             console.log(value);
             setLoading(false);
-            setProjectData(value);
+            setCartData(value);
         });
-      }, [getProductById]);
+      }, [getCart]);
     
     return (
-        <TitleFragment title="Product">
+        <TitleFragment title="Your Cart">
         <BaseTemplate
         
           content={
             <div>
-              <SettingsComponent productData={productData} loading={loading} />
+              <CartComponent cartData={cartData} loading={loading} />
             </div>
           }
         />

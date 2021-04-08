@@ -176,19 +176,10 @@ const HomeComponent = (props) => {
 
         <div style={{ marginTop: "10px", padding: "20px" }}>
           <Row className={styles.row}>
-            <h4>My Services</h4>
+            <h4>Please Wait...</h4>
             <h4 style={{ paddingLeft: "10px" }}>{colCount}</h4>
           </Row>
-          <Row>
-            <center>
-              <img alt="icon" src="/images/empty.png" />
-            </center>
-          </Row>
-          <Row>
-            <center>
-              <h2>Please try refreshing page.</h2>
-            </center>
-          </Row>
+         
         </div>
       </div>
     );

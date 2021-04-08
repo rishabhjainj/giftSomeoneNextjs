@@ -8,16 +8,23 @@ import {
   notification,
   Input,
   Dropdown,
+  Col,
   Divider,
   Statistic,
   Button,
   Tag,
   Typography,
+  Rate,
   Row,
 } from "antd";
 import { useRouter, withRouter } from "next/router";
 
-import { EllipsisOutlined, ExclamationCircleOutlined , HeartTwoTone} from "@ant-design/icons";
+import {
+  EllipsisOutlined,
+  ExclamationCircleOutlined,
+  HeartTwoTone,
+  CheckCircleTwoTone,
+} from "@ant-design/icons";
 
 import { render } from "react-dom";
 import useAuth from "../../../../auth/authContext";
@@ -26,8 +33,6 @@ import { useState, useEffect } from "react";
 import styles from "./SettingsComponent.module.css";
 
 const { Paragraph } = Typography;
-
-
 
 const Content = ({ children, extraContent }) => {
   return (
@@ -38,23 +43,46 @@ const Content = ({ children, extraContent }) => {
   );
 };
 
+function getDiscountPrice(price, discount) {
+  let newprice = price - (price * discount) / 100;
+  return newprice;
+}
+
 const Settings = (props) => {
-  const { deleteProject } = useAuth();
+  const { deleteProject, addToCart } = useAuth();
   const [visible, setVisible] = useState(false);
   const [confirmVisible, setconfirmVisible] = useState(false);
   const data = props.productData;
   const date = data ? data.title : "";
-  const category = data.category;
-  const services = category ? category.name : null;
+  const labelData = data ? data.label : null;
+  const label = labelData ? labelData.name : "";
+  const price = data ? data.price : null;
+  const discount = data ? data.discount : null;
+  const stock = data ? data.units_in_stock : null;
+  const sale_price = getDiscountPrice(price, discount);
+  const categoryData = data ? data.category : null;
+  const category = categoryData ? categoryData.name : null;
   const apis = data ? data.api_keys : null;
   const name = data ? data.title : null;
   const description = data ? data.description : null;
   const router = useRouter();
-  const { projectId } = router.query;
+  const { productId } = router.query;
 
   useEffect(() => {}, [deleteProject]);
-  const addToCart = () => {
-    
+
+  const addToCartClick = () => {
+    addProductToCart();
+  };
+  const addProductToCart = () => {
+    const response = addToCart(1, productId);
+    response.then((value) => {
+      console.log("deleted");
+      openNotification("bottom-left");
+      setconfirmVisible(false);
+      // setTimeout(() => {
+      //   window.location.pathname = "/";
+      // }, 2000);
+    });
   };
 
   const ConfirmDialog = () => {
@@ -119,8 +147,8 @@ const Settings = (props) => {
   const openNotification = (placement) => {
     notification.open({
       type: "success",
-      message: "Project Deleted!",
-      description: "This project is now deleted!",
+      message: "Product Added To Cart!",
+      description: "This project is now in your cart!",
       placement,
       onClick: () => {
         console.log("Notification Clicked!");
@@ -166,56 +194,87 @@ const Settings = (props) => {
         <PageHeader
           title={<h3 class={styles.heading}>{name}</h3>}
           className={styles.header}
-          tags={<Tag color="blue">Available</Tag>}
+          tags={
+            stock && stock > 0 ? (
+              <Tag color="green">
+                {" "}
+                <CheckCircleTwoTone /> In Stock
+              </Tag>
+            ) : (
+              <Tag color="red">Out Of Stock</Tag>
+            )
+          }
           extra={[
-            <Button key="1" type="danger" onClick={addToCart}>
+            <Button key="1" type="danger" onClick={addToCartClick}>
               Add To Cart
             </Button>,
-            <Button type="primary" icon={<HeartTwoTone twoToneColor="#eb2f96" />} size={8} >
+            <Button
+              type="primary"
+              icon={<HeartTwoTone twoToneColor="#eb2f96" />}
+              size={8}
+            >
               Add To Wishlist
             </Button>,
           ]}
           // breadcrumb={{ routes }}
         >
-          <Content
-            extraContent={
-              <img src={data.image} alt="content" width="100%" />
-            }
-          >
-            <Divider />
-            <>
-              <h3>Product Overview</h3>
-              <Paragraph>{description}</Paragraph>
+          <Divider />
+          <>
+            <Row>
+              <Col lg={12}>
+                <img src={data.image} alt="content" width="100%" />
+              </Col>
 
-              <Row>
-                <Row lg={24} style={{ marginTop: "50px" }}>
-                  <Statistic
-                    style={{ margin: "30px" }}
-                    title="Created At:"
-                    value={date}
-                  />
-                  <Statistic
-                    style={{ margin: "30px" }}
-                    title="Services Enabled"
-                    value={services ? services.length : null}
-                  />
-                  <Statistic
-                    style={{ margin: "30px" }}
-                    title="API Keys Generated"
-                    value={apis ? apis.length : null}
-                  />
-                </Row>
-              </Row>
-            </>
-            <CreateProjectForm
-              visible={visible}
-              onCreate={onCreate}
-              onCancel={() => {
-                setVisible(false);
-              }}
-            />
-            <ConfirmDialog />
-          </Content>
+              <Col lg={2}></Col>
+
+              <Col lg={10}>
+                <div>
+                  <Row>
+                    <Statistic
+                      style={{ fontStyle: "bold" }}
+                      title="DealPrice"
+                      prefix="₹"
+                      value={sale_price}
+                    />
+                    <Statistic
+                      style={{ marginLeft: "20px", color: "red" }}
+                      title="Discount"
+                      prefix=""
+                      value={discount + "%"}
+                    />
+                  </Row>
+                  <div className={styles.price_wrapper}>
+                    <Row>
+                      <div>M.R.P.{price}</div>
+                    </Row>
+                  </div>
+
+                  <h2 style={{ marginTop: "30px" }}>Product Overview</h2>
+                  <Rate disabled defaultValue={4} />
+                  <Paragraph>{description}</Paragraph>
+                </div>
+              </Col>
+
+              <Statistic
+                style={{ margin: "30px" }}
+                title="Product Price:"
+                value={date}
+              />
+              <Statistic
+                style={{ margin: "30px" }}
+                title="Category"
+                value={category ? category : null}
+              />
+            </Row>
+          </>
+          <CreateProjectForm
+            visible={visible}
+            onCreate={onCreate}
+            onCancel={() => {
+              setVisible(false);
+            }}
+          />
+          <ConfirmDialog />
         </PageHeader>
       </Skeleton>
     </Card>

@@ -32,8 +32,8 @@
 .price_wrapper {
     position: relative;
     display: inline-block;
-  }
-  
+}
+
 .price_slash {
     position: relative;
     width: 100%;
@@ -50,6 +50,11 @@
 [data-theme='compact'] .examplelinkicon {
     width: 20px;
     height: 20px;
+}
+
+.column {
+    padding: 10px;
+    margin: 10px;
 }
 
 .examplelink {
