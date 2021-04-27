@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { Button, Modal, Form, Input, notification, Radio } from "antd";
 import Axios from "axios";
-import useAuth from "../../../auth/authContext";
+import useAuth from "../../auth/authContext";
 import { useRouter } from "next/router";
 
 const CreateProjectAPI = () => {

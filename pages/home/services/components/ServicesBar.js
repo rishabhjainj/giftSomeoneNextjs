@@ -12,7 +12,7 @@ import {
   Tag,
   Typography,
 } from "antd";
-import useAuth from "../../../../../auth/authContext";
+import useAuth from "../../../../auth/authContext";
 
 const { Paragraph } = Typography;
 import styles from "./ServiceBar.module.css";
