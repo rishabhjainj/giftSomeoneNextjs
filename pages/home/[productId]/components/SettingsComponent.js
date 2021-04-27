@@ -49,7 +49,7 @@ function getDiscountPrice(price, discount) {
 }
 
 const Settings = (props) => {
-  const { deleteProject, addToCart } = useAuth();
+  const { deleteProject, addToCart, addToWishlist } = useAuth();
   const [visible, setVisible] = useState(false);
   const [confirmVisible, setconfirmVisible] = useState(false);
   const data = props.productData;
@@ -77,7 +77,29 @@ const Settings = (props) => {
     const response = addToCart(1, productId);
     response.then((value) => {
       console.log("deleted");
-      openNotification("bottom-left");
+      openNotification(
+        "bottom-left",
+        "Product Added!",
+        "Product is now in your cart"
+      );
+      setconfirmVisible(false);
+      // setTimeout(() => {
+      //   window.location.pathname = "/";
+      // }, 2000);
+    });
+  };
+  const addToWishlistClick = () => {
+    addProductToWishlist();
+  };
+  const addProductToWishlist = () => {
+    const response = addToWishlist(productId);
+    response.then((value) => {
+      console.log("deleted");
+      openNotification(
+        "bottom-left",
+        "Product Added!",
+        "Product is now in your wishlist"
+      );
       setconfirmVisible(false);
       // setTimeout(() => {
       //   window.location.pathname = "/";
@@ -144,11 +166,11 @@ const Settings = (props) => {
       </Modal>
     );
   };
-  const openNotification = (placement) => {
+  const openNotification = (placement, msg, desc) => {
     notification.open({
       type: "success",
-      message: "Product Added To Cart!",
-      description: "This project is now in your cart!",
+      message: msg,
+      description: desc,
       placement,
       onClick: () => {
         console.log("Notification Clicked!");
@@ -212,6 +234,7 @@ const Settings = (props) => {
               type="primary"
               icon={<HeartTwoTone twoToneColor="#eb2f96" />}
               size={8}
+              onClick={addToWishlistClick}
             >
               Add To Wishlist
             </Button>,

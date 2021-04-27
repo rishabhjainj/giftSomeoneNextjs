@@ -50,6 +50,32 @@ export const AuthProvider = ({ children }) => {
       return response;
     }
   };
+  const checkout = async (
+    cart_id,
+    street_address,
+    apartment_address,
+    country,
+    state,
+    zip
+  ) => {
+    const { data: response } = await api.post(
+      "api/orders/".concat(`${cart_id}`).concat("/checkout/"),
+      { street_address, apartment_address, state, country, zip }
+    );
+    if (response) {
+      return response;
+    }
+  };
+  const initiate_payment = async (cart_id) => {
+    setTimeout(() => {
+      window.open("http://localhost:8002/api/redirect/", "_blank");
+    }, 2000);
+
+    // const { data: response } = await api.get("api/redirect/");
+    // if (response) {
+    //   return response;
+    // }
+  };
   const addToCart = async (cart_id, product, qty = 1) => {
     const { data: response } = await api.post(
       "api/orders/".concat(`${cart_id}`).concat("/add_to_cart/"),
@@ -59,6 +85,35 @@ export const AuthProvider = ({ children }) => {
       return response;
     }
   };
+  const removeFromWishlist = async (product) => {
+    const { data: response } = await api.post(
+      "api/products/".concat(`${product}`).concat("/remove_from_wishlist/"),
+      {}
+    );
+    if (response) {
+      return response;
+    }
+  };
+
+  const addToWishlist = async (product) => {
+    const { data: response } = await api.post(
+      "api/products/".concat(`${product}`).concat("/add_to_wishlist/"),
+      {}
+    );
+    if (response) {
+      return response;
+    }
+  };
+  const getWishlist = async () => {
+    const { data: response } = await api.get(
+      "api/products/".concat(`${1}`).concat("/get_wishlist/"),
+      {}
+    );
+    if (response) {
+      return response;
+    }
+  };
+
   const removeFromCart = async (cart_id, product) => {
     console.log(product);
     const { data: response } = await api.post(
@@ -267,8 +322,13 @@ export const AuthProvider = ({ children }) => {
         serviceIsEnabled,
         enableService,
         addToCart,
+        checkout,
+        initiate_payment,
         removeFromCart,
         getCart,
+        addToWishlist,
+        removeFromWishlist,
+        getWishlist,
         updateApiKeyName,
         disableService,
         deleteApiKey,

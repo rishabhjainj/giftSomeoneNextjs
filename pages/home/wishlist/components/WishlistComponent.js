@@ -35,7 +35,7 @@ import { render } from "react-dom";
 import useAuth from "../../../../auth/authContext";
 import { useState, useEffect } from "react";
 
-import styles from "./CartComponent.module.css";
+import styles from "./WishlistComponent.module.css";
 
 const { Paragraph } = Typography;
 
@@ -53,21 +53,18 @@ function getDiscountPrice(price, discount) {
   return newprice;
 }
 
-const Cart = (props) => {
+const Wishlist = (props) => {
   const {
     deleteProject,
-    addToCart,
-    getCart,
-    removeFromCart,
-    checkout,
-    initiate_payment,
+    addToWishlist,
+    getWishlist,
+    removeFromWishlist,
   } = useAuth();
 
   const [data, setCartData] = useState({});
 
   const [visible, setVisible] = useState(false);
   const [loading, setLoading] = useState(true);
-  const [orderPlaced, setOrderPlaced] = useState(false);
   const [confirmVisible, setconfirmVisible] = useState(false);
   const [checkOutEnable, setCheckOutEnabled] = useState(false);
 
@@ -79,11 +76,11 @@ const Cart = (props) => {
   let len = products ? products.length : 0;
 
   useEffect(() => {
-    updateCart();
+    updateWishlist();
   }, []);
 
-  const updateCart = () => {
-    const response = getCart(1);
+  const updateWishlist = () => {
+    const response = getWishlist();
     response.then(function (value) {
       setLoading(false);
       setCartData(value);
@@ -140,22 +137,6 @@ const Cart = (props) => {
                   <div className={styles.price_wrapper}>
                     <Row>
                       <div>
-                        <Row>
-                          <Button
-                            className={styles.btn}
-                            icon={<PlusCircleOutlined />}
-                            size={4}
-                            onClick={() => addProductToCart(product.id, 1)}
-                          ></Button>
-                          <h2>QTY : {products[i].quantity}</h2>
-                          <Button
-                            className={styles.btn}
-                            type="danger"
-                            icon={<MinusCircleOutlined />}
-                            size={4}
-                            onClick={() => removeProduct(mCart.id, product.id)}
-                          ></Button>
-                        </Row>
                         <Button
                           className={styles.btn}
                           type="danger"
@@ -189,44 +170,40 @@ const Cart = (props) => {
 
   useEffect(() => {}, [deleteProject]);
 
-  const addToCartClick = () => {
-    addProductToCart();
+  const addToWishlistClick = () => {
+    addProductToWishlist();
   };
 
-  const addProductToCart = (id, qty) => {
-    const response = addToCart(1, id, qty);
+  const addProductToWishlist = (id) => {
+    const response = addToWishlist(id);
     response.then((value) => {
       console.log("deleted");
-      if (qty == 0)
-        openNotification(
-          "bottom-left",
-          "Item Deleted",
-          "Product Removed From Cart"
-        );
-
+      openNotification(
+        "bottom-left",
+        "Product Removed",
+        "Product Removed From Wishlist"
+      );
       setconfirmVisible(false);
-      updateCart();
+      updateWishlist();
       // setTimeout(() => {
       //   window.location.pathname = "/";
       // }, 2000);
     });
   };
 
-  const removeProduct = (cart_id, id) => {
-    console.log("cartid" + cart_id);
-    const response = removeFromCart(cart_id, id);
+  const removeProductFromWishList = (id) => {
+    const response = removeFromWishlist(id);
     response.then((value) => {
       console.log("deleted");
-
       setconfirmVisible(false);
-      updateCart();
+      updateWishlist();
       // setTimeout(() => {
       //   window.location.pathname = "/";
       // }, 2000);
     });
   };
   const deleteItem = (id, qty) => {
-    addProductToCart(id, 0);
+    removeProductFromWishList(id);
   };
 
   const ConfirmDialog = () => {
@@ -243,12 +220,12 @@ const Cart = (props) => {
       </Modal>
     );
   };
-  const CheckOutForm = ({ visible, onCreate, onCancel }) => {
+  const CreateProjectForm = ({ visible, onCreate, onCancel }) => {
     const [form] = Form.useForm();
     return (
       <Modal
         visible={visible}
-        title="Enter Billing Adddress to continue"
+        title="Type name of Project to continue deletion"
         okText="Continue"
         cancelText="Cancel"
         onCancel={onCancel}
@@ -273,60 +250,12 @@ const Cart = (props) => {
           }}
         >
           <Form.Item
-            name="street_address"
-            label="Street Address"
+            name="name"
+            label="Project Title"
             rules={[
               {
                 required: true,
-                message: "Enter Street Address",
-              },
-            ]}
-          >
-            <Input />
-          </Form.Item>
-          <Form.Item
-            name="apartment_address"
-            label="Apartment Address"
-            rules={[
-              {
-                required: true,
-                message: "Enter Apartment Address",
-              },
-            ]}
-          >
-            <Input />
-          </Form.Item>
-          <Form.Item
-            name="country"
-            label="Country"
-            rules={[
-              {
-                required: true,
-                message: "Enter Country",
-              },
-            ]}
-          >
-            <Input />
-          </Form.Item>
-          <Form.Item
-            name="state"
-            label="State"
-            rules={[
-              {
-                required: true,
-                message: "Enter State",
-              },
-            ]}
-          >
-            <Input />
-          </Form.Item>
-          <Form.Item
-            name="zip"
-            label="Zip Code"
-            rules={[
-              {
-                required: true,
-                message: "Enter Zip",
+                message: "Type name of project to confirm!",
               },
             ]}
           >
@@ -346,9 +275,6 @@ const Cart = (props) => {
         console.log("Notification Clicked!");
       },
     });
-  };
-  const openForm = () => {
-    setVisible(true);
   };
   const openErrorNotification = () => {
     notification.open({
@@ -375,85 +301,29 @@ const Cart = (props) => {
     setconfirmVisible(false);
   };
   const onCreate = (values) => {
-    //hit api here
-    setVisible(false);
-    const response = checkout(
-      mCart.id,
-      values.street_address,
-      values.apartment_address,
-      values.country,
-      values.state,
-      values.zip
-    );
-    response.then(function (value) {
-      setLoading(false);
-      console.log(value);
-      setOrderPlaced(true);
-      initiate_payment();
-    });
+    if (values.name == name) {
+      setVisible(false);
+      setconfirmVisible(true);
+    } else {
+      openErrorNotification("top-right");
+    }
   };
 
-  const handleOk = () => {
-    setOrderPlaced(false);
-    updateCart();
-  };
-
-  const handleCancel = () => {
-    setOrderPlaced(false);
-  };
-  return (
+  let cardlen = cartCards.length;
+  return cardlen > 0 ? (
     <div>
-      <Modal
-        title="Your Order is Placed. Your Order ID is :"
-        visible={orderPlaced}
-        onOk={handleOk}
-        onCancel={handleCancel}
-      >
-        <p>{mCart.id}</p>
-      </Modal>
-      <CheckOutForm
-        visible={visible}
-        onCreate={onCreate}
-        onCancel={() => {
-          setVisible(false);
-        }}
-      />
-      <Card loading={loading}>
-        <Row>
-          <Col lg={20}>
-            <div>
-              <h2>Total Amount : {mCart.amount}</h2>
-            </div>
-          </Col>
-          <Col>
-            <div>
-              {checkOutEnable ? (
-                <Button
-                  type="primary"
-                  icon={<ShoppingCartOutlined />}
-                  size={4}
-                  onClick={openForm}
-                >
-                  CHECKOUT
-                </Button>
-              ) : (
-                <Button
-                  type="primary"
-                  icon={<ShoppingCartOutlined />}
-                  size={4}
-                  disabled
-                >
-                  CHECKOUT
-                </Button>
-              )}
-            </div>
-          </Col>
-        </Row>
-      </Card>
+      <Card loading={loading}></Card>
       <Card>
         <Col style={{ paddingLeft: "10px" }}>{cartCards}</Col>
       </Card>
     </div>
+  ) : (
+    <div>
+      <Card loading={loading}></Card>
+      <Card>
+        <p>Your Wishlist is Empty</p>
+      </Card>
+    </div>
   );
 };
-export default Cart;
+export default Wishlist;

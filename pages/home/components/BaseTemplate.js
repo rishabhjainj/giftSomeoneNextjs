@@ -151,20 +151,10 @@ const BaseTemplate = (props) => {
             <Link href={"/home/"}>Home</Link>
           </Menu.Item>
           <Menu.Item key="2" icon={<KeyOutlined />}>
-            <Link
-              href="/dashboard/[projectId]/Credentials"
-              as={`/dashboard/${projectId}/Credentials`}
-            >
-              Credentials
-            </Link>
+            <Link href={"/home/wishlist"}>WishList</Link>
           </Menu.Item>
           <Menu.Item key="3" icon={<SettingOutlined />}>
-            <Link
-              href="/dashboard/[projectId]/settings"
-              as={`/dashboard/${projectId}/settings`}
-            >
-              Settings
-            </Link>
+            <Link href={"/home/cart"}>Cart</Link>
           </Menu.Item>
           <Menu.Item key="4" icon={<MoneyCollectOutlined />}>
             Billing
