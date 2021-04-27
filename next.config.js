@@ -1,5 +1,5 @@
 module.exports = {
   env: {
-    config: "production",
+    config: "test",
   },
 };
