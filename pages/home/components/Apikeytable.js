@@ -15,7 +15,7 @@ import { FolderAddOutlined } from "@ant-design/icons";
 import React, { useContext, useEffect, useState, useRef } from "react";
 
 import useAuth from "../../../auth/authContext";
-import BaseTemplate from "../../components/BaseTemplate";
+import BaseTemplate from "../components/BaseTemplate";
 import CopyOutlined from "@ant-design/icons";
 // import Copytoclipboard from './Copytoclipboard'
 import { AgGridReact } from "ag-grid-react";
