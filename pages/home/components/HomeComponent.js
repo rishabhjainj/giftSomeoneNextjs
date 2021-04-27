@@ -34,8 +34,8 @@ const HomeComponent = (props) => {
   const categories = props ? props.categories : null;
   const products = props ? props.products : null;
 
-  const categoryList = categories.results;
-  const productList = products.results;
+  const categoryList = categories ? categories.results : null;
+  const productList = products ? products.results : null;
 
   const gutters = {};
   const vgutters = {};
