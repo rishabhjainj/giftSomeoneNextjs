@@ -29,11 +29,7 @@ import {
   QuestionCircleOutlined,
 } from "@ant-design/icons";
 
-import { render } from "react-dom";
-import useAuth from "../../../auth/authContext";
 import React, { useState, useEffect } from "react";
-
-import styles from "./SettingsComponent.module.css";
 
 const { Paragraph } = Typography;
 

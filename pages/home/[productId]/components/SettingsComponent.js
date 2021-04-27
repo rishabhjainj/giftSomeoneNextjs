@@ -245,7 +245,9 @@ const Settings = (props) => {
           <>
             <Row>
               <Col lg={12}>
-                <img src={data.image} alt="content" width="100%" />
+                {data ? (
+                  <img src={data.image} alt="content" width="100%" />
+                ) : null}
               </Col>
 
               <Col lg={2}></Col>
